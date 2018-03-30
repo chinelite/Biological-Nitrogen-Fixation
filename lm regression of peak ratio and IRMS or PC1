@@ -1,0 +1,54 @@
+yy<-read.csv(file.choose(),header = 1)
+head(yy)
+yy_fit<-lm(ratio~irms,yy)
+summary(yy_fit)
+pr<-ggplot(yy,aes(ratio,irms))+
+  geom_point(aes(color=factor(percent),shape=factor(percent)),size = 3 )+
+  geom_errorbar(aes(ymin=irms-mssd,ymax=irms+mssd),width=0.03)+
+  geom_errorbarh(aes(xmin=ratio-sd,xmax=ratio+sd),height = 3)+
+  geom_smooth(method = "lm",se=FALSE,color="#BD2026")+
+  scale_shape_manual(values = c(0,1,2,5,6,5))+
+  scale_color_manual(values = c("#ff7f00","#984ea3","#4daf4a","#377eb8","#e41a1c","#f564e3"))+
+  scale_x_continuous(breaks = seq(0,0.75,0.25))+
+  scale_y_continuous(breaks = seq(0,75,25))+
+  expand_limits(x=c(0,0.75),y = c(0,75))+
+  labs(x="Ratio of peak area (I1114/I1114+I1129)",y="At 15N% in cells by IRMS")+
+  annotate("text", x = 0.03, y = 65, label = "R2 = , P = 0.00",size=6,vjust=0,hjust=0)+
+  theme_bw(base_size = 20)+
+  theme(panel.grid.minor = element_blank(),
+        legend.position = "none")
+pr
+  #6*5
+pca<-ggplot(yy,aes(ratio,irms))+
+  geom_point(aes(color=factor(percent),shape=factor(percent)),size = 3 )+
+  geom_errorbar(aes(ymin=irms-mssd,ymax=irms+mssd),width=0.03)+
+  geom_errorbarh(aes(xmin=ratio-sd,xmax=ratio+sd),height = 3)+
+  geom_smooth(method = "lm",se=FALSE,color="#BD2026")+
+  scale_shape_manual(values = c(0,1,2,5,6,5))+
+  scale_color_manual(values = c("#ff7f00","#984ea3","#4daf4a","#377eb8","#e41a1c","#f564e3"))+
+  scale_x_continuous(breaks = seq(-0.6,0.65,0.25))+
+  scale_y_continuous(breaks = seq(0,100,25))+
+  expand_limits(x=c(-0.6,0.65),y = c(-2,100))+
+  labs(x="PC1",y="At 15N% in cells by IRMS")+
+  annotate("text", x = -0.6, y = 75, label = "R2 = 0.997, P < 0.001",size=6,vjust=0,hjust=0)+
+  annotate("text", x = -0.6, y = 90, label = "At 15N% in cells = 38.79 + 75.18 × PC1",size=6,vjust=0,hjust=0)+
+  theme_bw(base_size = 20)+
+  theme(panel.grid.minor = element_blank(),
+        legend.position = "none")
+pca
+
+###add
+pca1<-ggplot(yy,aes(ratio,irms))+
+  geom_point(aes(color=factor(percent),shape=factor(percent)),size = 3 )+
+  scale_shape_manual(values = c(0,1,2,5,6,5))+
+  scale_color_manual(values = c("#ff7f00","#984ea3","#4daf4a","#377eb8","#e41a1c","#f564e3"))+
+  scale_x_continuous(breaks = seq(-0.6,0.65,0.25))+
+  scale_y_continuous(breaks = seq(0,100,25))+
+  expand_limits(x=c(-0.6,0.65),y = c(-2,100))+
+  labs(x="PC1",y="At 15N% in cells by IRMS")+
+  annotate("text", x = -0.6, y = 75, label = "R2 = 0.997, P < 0.001",size=6,vjust=0,hjust=0)+
+  annotate("text", x = -0.6, y = 90, label = "At 15N% in cells = 38.79 + 75.18 × PC1",size=6,vjust=0,hjust=0)+
+  theme_bw(base_size = 20)+
+  theme(panel.grid.minor = element_blank(),
+        legend.position = "none")
+pca1
